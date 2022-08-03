@@ -1,0 +1,13 @@
+/bin
+
+# java
+*.jar
+*.class
+/*.iml
+/.idea
+
+# setup dependencies
+/trino
+
+# python
+venv
