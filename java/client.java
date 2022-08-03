@@ -35,7 +35,7 @@ class Client
                     resultSet.getString(9),
                     resultSet.getString(10));
             numRows++;
-            allCommentsLength += ((String)values.get(9)).length();
+            allCommentsLength += ((String)values.get(8)).length();
         }
         System.out.printf("Average comment length: %.2f\n", (double) allCommentsLength / numRows);
         if (numRows != 100000) {
