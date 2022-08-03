@@ -33,16 +33,33 @@ func query() error {
 	}
 	defer rows.Close()
 
-	var count int
+	var numRows int
+	var allCommentsLength int
+	var orderKey int64
+	var custKey int64
+	var orderStatus string
+	var totalPrice float64
+	var orderDate string
+	var orderPriority string
+	var clerk string
+	var shipPriority int
+	var comment string
+	var now string
 	for rows.Next() {
-		count++
+		err = rows.Scan(&orderKey, &custKey, &orderStatus, &totalPrice, &orderDate, &orderPriority, &clerk, &shipPriority, &comment, &now)
+		if err != nil {
+			return err
+		}
+		numRows++
+		allCommentsLength += len(comment)
 	}
 	err = rows.Err()
 	if err != nil {
 		return err
 	}
-	if count != 100000 {
-		return fmt.Errorf("Expected 100000 rows but got %d", count)
+	fmt.Printf("Average comment length: %.2f\n", float64(allCommentsLength)/float64(numRows))
+	if numRows != 100000 {
+		return fmt.Errorf("Expected 100000 rows but got %d", numRows)
 	}
 	return nil
 }

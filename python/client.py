@@ -19,8 +19,14 @@ def main():
     cur = conn.cursor()
     cur.execute(query)
     rows = cur.fetchall()
-    if len(rows) != 100000:
-        sys.exit(f"Expected 100000 rows but got {len(rows)}")
+    num_rows = 0
+    all_comments_length = 0
+    for row in rows:
+        num_rows += 1
+        all_comments_length += len(row[9])
+    print(f"Average comment length: {all_comments_length / float(num_rows)}")
+    if num_rows != 100000:
+        sys.exit(f"Expected 100000 rows but got {num_rows}")
 
 
 if __name__ == "__main__":
