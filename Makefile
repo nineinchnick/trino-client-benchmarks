@@ -1,6 +1,6 @@
 TRINO_VERSION:=392
 
-.PHONY: all benchmark bin
+.PHONY: all benchmark bin run-java run-go run-python
 
 all: benchmark
 
@@ -26,3 +26,12 @@ bin/%: go/%.go bin
 benchmark: bin/client.jar bin/client python/client.py bin/trino setup.sql
 	# TODO start Trino in a container and pass the random port to test programs
 	hyperfine --prepare './bin/trino < setup.sql' --warmup 1 'java -cp java/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar Client' 'bin/client' './python/client.py'
+
+run-java: bin/client.jar
+	time java -cp java/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar Client
+
+run-go: bin/client
+	time ./bin/client
+
+run-python:
+	time ./python/client.py
