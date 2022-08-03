@@ -1,13 +1,10 @@
 /bin
 
 # java
-*.jar
-*.class
+/java/*.jar
+/java/*.class
 /*.iml
 /.idea
-
-# setup dependencies
-/trino
 
 # python
 venv

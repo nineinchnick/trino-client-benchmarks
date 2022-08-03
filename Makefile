@@ -4,26 +4,25 @@ TRINO_VERSION:=392
 
 all: benchmark
 
-trino:
-	curl -fLOsS https://repo1.maven.org/maven2/io/trino/trino-cli/${TRINO_VERSION}/trino-cli-${TRINO_VERSION}-executable.jar
-	mv trino-cli-${TRINO_VERSION}-executable.jar trino
-	chmod +x trino
+bin/trino: bin
+	[ -f bin/trino ] || curl -fLsS -o bin/trino https://repo1.maven.org/maven2/io/trino/trino-cli/${TRINO_VERSION}/trino-cli-${TRINO_VERSION}-executable.jar
+	chmod +x bin/trino
 
-trino-jdbc-${TRINO_VERSION}.jar:
-	curl -fLOsS https://repo1.maven.org/maven2/io/trino/trino-jdbc/${TRINO_VERSION}/trino-jdbc-${TRINO_VERSION}.jar
+java/trino-jdbc-${TRINO_VERSION}.jar:
+	curl -fLsS -o java/trino-jdbc-${TRINO_VERSION}.jar https://repo1.maven.org/maven2/io/trino/trino-jdbc/${TRINO_VERSION}/trino-jdbc-${TRINO_VERSION}.jar
 
-%.class: trino-jdbc-${TRINO_VERSION}.jar
-	javac -classpath trino-jdbc-${TRINO_VERSION}.jar Client.java
+%.class: java/trino-jdbc-${TRINO_VERSION}.jar
+	javac -classpath trino-jdbc-${TRINO_VERSION}.jar java/Client.java
 
 bin:
 	mkdir -p bin
 
-bin/%.jar: %.class bin
-	jar cvfm bin/client.jar manifest.mf *.class
+bin/%.jar: java/%.class bin
+	cd java && jar cvfm ../bin/client.jar manifest.mf *.class
 
-bin/%: %.go bin
-	go build -o bin/client ./...
+bin/%: go/%.go bin
+	cd go && go build -o ../bin/client ./...
 
-benchmark: bin/client.jar bin/client client.py trino setup.sql
+benchmark: bin/client.jar bin/client python/client.py bin/trino setup.sql
 	# TODO start Trino in a container and pass the random port to test programs
-	hyperfine --prepare './trino < setup.sql' 'java -cp trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar Client' 'bin/client' './client.py'
+	hyperfine --prepare './bin/trino < setup.sql' --warmup 1 'java -cp java/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar Client' 'bin/client' './python/client.py'
