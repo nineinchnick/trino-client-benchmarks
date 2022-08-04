@@ -38,3 +38,6 @@ run-python:
 
 bench-go:
 	cd go && go test -bench=. -benchtime=10s
+
+bench-python:
+	venv/bin/pytest python/client.py
