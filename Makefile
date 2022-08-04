@@ -35,3 +35,6 @@ run-go: bin/client
 
 run-python:
 	time ./python/client.py
+
+bench-go:
+	cd go && go test -bench=. -benchtime=10s

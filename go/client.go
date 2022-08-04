@@ -3,31 +3,41 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"os"
 
 	_ "github.com/trinodb/trino-go-client/trino"
 )
 
 func main() {
-	err := query()
+	err := run()
 	if err != nil {
 		panic(err)
 	}
 }
 
-func query() error {
-	query, err := os.ReadFile("query.sql")
-	if err != nil {
-		return err
-	}
-
+func run() error {
 	db, err := sql.Open("trino", "http://go@localhost:8080")
 	if err != nil {
 		return err
 	}
 	defer db.Close()
 
-	rows, err := db.Query(string(query))
+	return query(db)
+}
+
+func query(db *sql.DB) error {
+	q := `SELECT
+  orderkey
+  , custkey
+  , orderstatus
+  , totalprice
+  , orderdate
+  , orderpriority
+  , clerk
+  , shippriority
+  , comment
+  , now
+FROM memory.default.orders`
+	rows, err := db.Query(q)
 	if err != nil {
 		return err
 	}
@@ -46,7 +56,18 @@ func query() error {
 	var comment string
 	var now string
 	for rows.Next() {
-		err = rows.Scan(&orderKey, &custKey, &orderStatus, &totalPrice, &orderDate, &orderPriority, &clerk, &shipPriority, &comment, &now)
+		err = rows.Scan(
+			&orderKey,
+			&custKey,
+			&orderStatus,
+			&totalPrice,
+			&orderDate,
+			&orderPriority,
+			&clerk,
+			&shipPriority,
+			&comment,
+			&now,
+		)
 		if err != nil {
 			return err
 		}
