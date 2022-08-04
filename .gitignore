@@ -5,6 +5,11 @@
 /java/*.class
 /*.iml
 /.idea
+.classpath
+.factorypath
+.project
+.settings
+target
 
 # python
 venv
