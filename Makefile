@@ -20,7 +20,7 @@ bin/%: go/%.go bin
 
 benchmark: bin/client.jar bin/client python/client.py bin/trino setup.sql
 	# TODO start Trino in a container and pass the random port to test programs
-	hyperfine --prepare './bin/trino < setup.sql' --warmup 1 'java -cp bin/client.jar pl.net.wasClient' 'bin/client' './python/client.py'
+	hyperfine --prepare './bin/trino < setup.sql' --warmup 1 'java -cp $$HOME/.m2/repository/io/trino/trino-jdbc/${TRINO_VERSION}/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar pl.net.was.Client' 'bin/client' './python/client.py'
 
 run-java: bin/client.jar
 	time java -cp $$HOME/.m2/repository/io/trino/trino-jdbc/${TRINO_VERSION}/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar pl.net.was.Client
