@@ -13,6 +13,7 @@ def main():
         host="localhost",
         port=8080,
         user="python",
+        experimental_python_types=True,
     )
     query(conn)
 
