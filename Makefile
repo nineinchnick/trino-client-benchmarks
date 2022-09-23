@@ -1,6 +1,7 @@
-TRINO_VERSION:=392
+TRINO_VERSION:=397
 
 .PHONY: all benchmark bin run-java run-go run-python
+TIME:=gtime -f '\t%E real,\t%U user,\t%S sys,\t%K amem,\t%M mmem'
 
 all: benchmark
 
@@ -23,19 +24,19 @@ benchmark: bin/client.jar bin/client python/client.py bin/trino setup.sql
 	hyperfine --prepare './bin/trino < setup.sql' --warmup 1 'java -cp $$HOME/.m2/repository/io/trino/trino-jdbc/${TRINO_VERSION}/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar pl.net.was.Client' 'bin/client' './python/client.py'
 
 run-java: bin/client.jar
-	time java -cp $$HOME/.m2/repository/io/trino/trino-jdbc/${TRINO_VERSION}/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar pl.net.was.Client
+	$(TIME) java -cp $$HOME/.m2/repository/io/trino/trino-jdbc/${TRINO_VERSION}/trino-jdbc-${TRINO_VERSION}.jar:bin/client.jar pl.net.was.Client
 
 run-go: bin/client
-	time ./bin/client
+	$(TIME) ./bin/client
 
 run-python:
-	time ./python/client.py
+	$(TIME) ./python/client.py
 
 bench-java:
 	cd java && mvn clean test-compile exec:java -Dexec.mainClass="pl.net.was.BenchmarkRunner" -Dexec.classpathScope=test
 
 bench-go:
-	cd go && go test -bench=. -benchtime=10s
+	cd go && go test -bench=. -benchtime=10s -benchmem
 
 bench-python:
 	venv/bin/pytest python/client.py

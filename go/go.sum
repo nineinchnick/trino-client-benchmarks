@@ -94,8 +94,8 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/stretchr/testify v1.7.1 h1:5TQK59W5E3v0r2duFAb7P95B6hEeOyEnHRa8MjYSMTY=
 github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/syndtr/gocapability v0.0.0-20200815063812-42c35b437635/go.mod h1:hkRG7XYTFWNJGYcbNJQlaLq0fg1yr4J4t/NcTQtrfww=
-github.com/trinodb/trino-go-client v0.302.0 h1:nCoZZwX5tTISLNIEOOjYN36aY5q2SfACQKfQpXkY0j0=
-github.com/trinodb/trino-go-client v0.302.0/go.mod h1:b3wyshZj60DHd7JsULwPvaq+JD6e3v+tQugVKZ+SqBw=
+github.com/trinodb/trino-go-client v0.305.0 h1:MdidvkHBJKm7yhDewreeMPF9d5qwy7kvMoWluD0st9U=
+github.com/trinodb/trino-go-client v0.305.0/go.mod h1:b3wyshZj60DHd7JsULwPvaq+JD6e3v+tQugVKZ+SqBw=
 github.com/urfave/cli v1.22.1/go.mod h1:Gos4lmkARVdJ6EkW0WaNv/tZAAMe9V7XWyB60NtXRu0=
 github.com/vishvananda/netlink v1.1.0/go.mod h1:cTgwzPIzzgDAYoQrMm0EdrjRUBkTqKYppBueQtXaqoE=
 github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df/go.mod h1:JP3t17pCcGlemwknint6hfoeCVQrEMVwxRLRjXpq+BU=

@@ -2,7 +2,7 @@ module github.com/nineinchnick/trino-client-benchmarks
 
 go 1.18
 
-require github.com/trinodb/trino-go-client v0.302.0
+require github.com/trinodb/trino-go-client v0.305.0
 
 require (
 	github.com/hashicorp/go-uuid v1.0.3 // indirect
